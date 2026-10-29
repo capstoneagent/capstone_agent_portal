@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A central place to access the current application.">
+  <meta name="description" content="Access the Capstone AI Agent application.">
   <title>Project Portal</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -14,10 +15,55 @@
       min-height: 100svh;
       display: grid;
       place-items: center;
-      padding: 96px 24px 32px;
+      padding: 110px 24px 32px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f4f6fa;
       color: #172338;
+    }
+
+    .click-counter {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      z-index: 10;
+      padding: 12px 16px;
+      background: #fff;
+      border: 1px solid #e3e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px #1723380a;
+      font-size: 14px;
+    }
+
+    .click-counter strong {
+      margin-left: 6px;
+      color: #3156b8;
+      font-size: 18px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .contact-button {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 10;
+      padding: 13px 18px;
+      border: 2px solid #a60f2d;
+      border-radius: 12px;
+      background: #d7193f;
+      color: #fff;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 750;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #d7193f30;
+    }
+
+    .contact-button:hover { background: #b51233; }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid #172338;
+      outline-offset: 4px;
     }
 
     main {
@@ -68,7 +114,7 @@
       margin: 30px 0 20px;
       padding: 16px 20px;
       background: #3156b8;
-      color: white;
+      color: #fff;
       border: 0;
       border-radius: 12px;
       text-decoration: none;
@@ -77,11 +123,6 @@
     }
 
     a.launch:hover { background: #254493; }
-
-    .launch:focus-visible {
-      outline: 3px solid #172338;
-      outline-offset: 4px;
-    }
 
     .launch:disabled {
       background: #e8ecf2;
@@ -99,118 +140,94 @@
       color: #657287;
     }
 
-    .contact-button {
-      position: fixed;
-      top: 20px;
-      right: 24px;
-      z-index: 10;
-      max-width: calc(100vw - 32px);
-      padding: 13px 20px;
-      background: #cf173d;
-      color: #fff;
-      border: 2px solid #a91030;
-      border-radius: 999px;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 750;
-      cursor: pointer;
-      box-shadow: 0 6px 20px #cf173d33;
-    }
-
-    .contact-button:hover { background: #ac1030; }
-
-    .contact-button:focus-visible,
-    .close-button:focus-visible {
-      outline: 3px solid #172338;
-      outline-offset: 4px;
-    }
-
     dialog {
-      width: min(480px, calc(100vw - 32px));
+      width: min(460px, calc(100% - 32px));
       max-height: calc(100svh - 32px);
       overflow-y: auto;
-      padding: 32px;
-      color: #172338;
+      padding: 28px;
       border: 1px solid #e3e8f0;
-      border-top: 5px solid #cf173d;
       border-radius: 20px;
+      background: #fff;
+      color: #172338;
       box-shadow: 0 24px 80px #17233840;
-      font: inherit;
     }
 
-    dialog::backdrop { background: #101b30a6; }
+    dialog::backdrop { background: #101a2d99; }
 
     .dialog-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
+      margin-bottom: 12px;
     }
 
-    h2 {
-      margin: 0 0 12px;
-      font-size: 24px;
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 23px;
       letter-spacing: -.03em;
     }
 
-    .dialog-header form { margin: -8px -8px 0 0; }
-
     .close-button {
+      flex-shrink: 0;
       display: grid;
       place-items: center;
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      border: 1px solid #dce2ec;
-      border-radius: 50%;
-      background: #f4f6fa;
+      width: 34px;
+      height: 34px;
+      border: 0;
+      border-radius: 8px;
+      background: #edf0f5;
       color: #172338;
       font-size: 24px;
       cursor: pointer;
     }
 
-    .close-button:hover { background: #e5eaf2; }
+    .close-button:hover { background: #dfe5ee; }
 
     .developer {
       margin-top: 20px;
-      padding: 16px;
-      background: #f4f6fa;
-      border-radius: 12px;
+      padding-top: 20px;
+      border-top: 1px solid #edf0f5;
     }
 
     .developer strong {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .developer a {
       color: #254493;
       overflow-wrap: anywhere;
-      text-underline-offset: 3px;
-    }
-
-    .report-note {
-      margin-top: 20px;
-      font-size: 13px;
     }
 
     [hidden] { display: none !important; }
 
-    @media (max-width: 420px) {
-      main { padding: 36px 24px; }
+    @media (max-width: 600px) {
+      body { padding-top: 155px; }
 
       .contact-button {
         top: 16px;
         right: 16px;
-        padding: 11px 16px;
-        font-size: 13px;
       }
 
-      dialog { padding: 24px; }
+      .click-counter {
+        top: 78px;
+        left: 16px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      main { padding: 36px 24px; }
     }
   </style>
 </head>
+
 <body>
+  <div class="click-counter">
+    Total app clicks:
+    <strong id="click-count" aria-live="polite">—</strong>
+  </div>
+
   <button
     id="contact-button"
     class="contact-button"
@@ -261,34 +278,27 @@
     </p>
 
     <noscript>
-      <p class="note">
-        Enable JavaScript to access the application link and contact popup.
-        Contact asimup@nmsu.edu or adukwab@nmsu.edu for help.
-      </p>
+      <p class="note">Enable JavaScript to access the application link.</p>
     </noscript>
 
     <footer>NMSU School of Engineering</footer>
   </main>
 
-  <dialog
-    id="contact-dialog"
-    aria-labelledby="contact-title"
-    aria-describedby="contact-description"
-  >
+  <dialog id="contact-dialog" aria-labelledby="contact-title">
     <div class="dialog-header">
       <h2 id="contact-title">Contact us / Report bugs</h2>
-      <form method="dialog">
-        <button
-          class="close-button"
-          type="submit"
-          aria-label="Close contact window"
-          autofocus
-        >&times;</button>
-      </form>
+      <button
+        id="close-contact"
+        class="close-button"
+        type="button"
+        aria-label="Close contact window"
+        autofocus
+      >&times;</button>
     </div>
 
-    <p id="contact-description">
-      For questions or to report a bug, contact the developers:
+    <p>
+      Need help or found a bug? Email either developer.
+      Include a brief description of what happened.
     </p>
 
     <div class="developer">
@@ -300,43 +310,86 @@
       <strong>Kwabena Adu Agyemang</strong>
       <a href="mailto:adukwab@nmsu.edu">adukwab@nmsu.edu</a>
     </div>
-
-    <p class="report-note">
-      Please describe what happened and what you expected to happen
-      when reporting a bug.
-    </p>
   </dialog>
 
   <script>
+    // Replace this when your application address changes.
+    // Leave empty to display "Link coming soon".
+    const APPLICATION_URL =
+      "https://leonard-freight-blind-kong.trycloudflare.com";
+
+    // Keep this counter address unchanged to preserve your total.
+    // No account or API key is required.
+    const COUNTER_BASE = "https://abacus.jasoncameron.dev";
+    const COUNTER_PATH =
+      "nmsu-capstone-ai-mentor-portal/open-application";
+
+    const launch = document.getElementById("launch");
+    const countDisplay = document.getElementById("click-count");
     const contactDialog = document.getElementById("contact-dialog");
 
     document.getElementById("contact-button").addEventListener("click", () => {
-      if (!contactDialog.open) {
-        contactDialog.showModal();
-      }
+      contactDialog.showModal();
     });
 
-    // Close when clicking outside the popup.
+    document.getElementById("close-contact").addEventListener("click", () => {
+      contactDialog.close();
+    });
+
+    // Close when clicking outside the dialog.
     contactDialog.addEventListener("click", (event) => {
-      const bounds = contactDialog.getBoundingClientRect();
+      if (event.target !== contactDialog) return;
 
-      if (
-        event.target === contactDialog &&
-        (
-          event.clientX < bounds.left ||
-          event.clientX > bounds.right ||
-          event.clientY < bounds.top ||
-          event.clientY > bounds.bottom
-        )
-      ) {
-        contactDialog.close();
-      }
+      const bounds = contactDialog.getBoundingClientRect();
+      const outside =
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom;
+
+      if (outside) contactDialog.close();
     });
 
-    // WEEKLY UPDATE: Paste the full HTTPS application link between the quotes.
-    // Leave this empty to show "Link coming soon".
-    const APPLICATION_URL =
-      "https://leonard-freight-blind-kong.trycloudflare.com";
+    // Serialize requests so older results cannot overwrite newer counts.
+    let counterRequests = Promise.resolve();
+
+    function updateClickCount(increment = false) {
+      counterRequests = counterRequests.then(async () => {
+        try {
+          const operation = increment ? "hit" : "get";
+          const response = await fetch(
+            `${COUNTER_BASE}/${operation}/${COUNTER_PATH}`,
+            {
+              cache: "no-store",
+              credentials: "omit",
+              referrerPolicy: "no-referrer",
+              keepalive: increment,
+              signal: AbortSignal.timeout(8000)
+            }
+          );
+
+          if (response.status === 404 && !increment) {
+            countDisplay.textContent = "0";
+            return;
+          }
+
+          if (!response.ok) throw new Error("Counter unavailable");
+
+          const data = await response.json();
+
+          if (!Number.isSafeInteger(data.value) || data.value < 0) {
+            throw new Error("Invalid count");
+          }
+
+          countDisplay.textContent = data.value.toLocaleString();
+          countDisplay.removeAttribute("title");
+        } catch {
+          countDisplay.title = "The click counter is temporarily unavailable.";
+        }
+      });
+
+      return counterRequests;
+    }
 
     try {
       const destination = new URL(APPLICATION_URL);
@@ -346,17 +399,33 @@
         !destination.username &&
         !destination.password
       ) {
-        const launch = document.getElementById("launch");
         launch.href = destination.href;
         launch.hidden = false;
-
         document.getElementById("unavailable").hidden = true;
         document.getElementById("note").textContent =
           "If the application does not open, it may be restarting or undergoing maintenance. Please try again later.";
       }
     } catch {
-      // Keep the unavailable state when no valid address has been supplied.
+      // Keep the unavailable state if no valid address is supplied.
     }
+
+    // Read the total without increasing it.
+    updateClickCount();
+
+    // Count normal clicks and keyboard activation.
+    launch.addEventListener("click", () => {
+      updateClickCount(true);
+    });
+
+    // Count middle-button clicks.
+    launch.addEventListener("auxclick", (event) => {
+      if (event.button === 1) updateClickCount(true);
+    });
+
+    // Refresh the displayed total without increasing it.
+    setInterval(() => {
+      if (!document.hidden) updateClickCount();
+    }, 30000);
   </script>
 </body>
 </html>
